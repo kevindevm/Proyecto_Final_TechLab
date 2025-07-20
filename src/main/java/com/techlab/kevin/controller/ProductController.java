@@ -1,9 +1,15 @@
 package com.techlab.kevin.controller;
 
 import com.techlab.kevin.dto.BulkProductResponseDTO;
+import com.techlab.kevin.dto.OrderApiResponseDTO;
 import com.techlab.kevin.dto.ProductApiResponseDTO;
 import com.techlab.kevin.entities.Product;
 import com.techlab.kevin.services.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -17,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Productos", description = "Operaciones relacionadas con productos")
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -27,7 +34,8 @@ public class ProductController {
     this.service = service;
   }
 
-
+  @Operation(summary = "Crear productos en masa")
+  @ApiResponse(responseCode = "207", description = "Lista de productos creados")
   @PostMapping("/bulk")
   public ResponseEntity<BulkProductResponseDTO> bulkCreate(
       @Valid @RequestBody List<Product> productList) {
@@ -35,23 +43,30 @@ public class ProductController {
     return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(result);
   }
 
-
+  @Operation(summary = "Crear Producto")
+  @ApiResponse(responseCode = "201", description = "Producto Creado")
   @PostMapping
   public ResponseEntity<ProductApiResponseDTO<Product>> create(@RequestBody Product product) {
     return ResponseEntity.status(HttpStatus.CREATED).body(service.addProduct(product));
   }
 
+  @Operation(summary = "Actualizar Producto")
+  @ApiResponse(responseCode = "200", description = "Producto Actualizado")
   @PatchMapping("/{id}")
   public ResponseEntity<ProductApiResponseDTO<Product>> update(@PathVariable Integer id,
       @Valid @RequestBody Product product) {
     return service.updateById(id, product);
   }
 
+  @Operation(summary = "Obtener todos los productos")
+  @ApiResponse(responseCode = "200", description = "lista de productos creados")
   @GetMapping
   public List<Product> getAll() {
     return service.productsList();
   }
 
+  @Operation(summary = "Buscar por palabra o id")
+  @ApiResponse(responseCode = "200", description = "lista de productos encontrados")
   @GetMapping("/search/{keyword}")
   public ResponseEntity<Object> search(@PathVariable String keyword) {
     try {
@@ -68,6 +83,8 @@ public class ProductController {
     }
   }
 
+  @Operation(summary = "Remover Producto")
+  @ApiResponse(responseCode = "200", description = "lista de productos creados")
   @DeleteMapping("delete/{id}")
   public ResponseEntity<ProductApiResponseDTO<Product>> delete(@PathVariable Integer id) {
     return service.deleteById(id);
