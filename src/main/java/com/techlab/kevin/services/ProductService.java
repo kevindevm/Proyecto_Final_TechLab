@@ -53,19 +53,6 @@ public class ProductService {
     return this.productRepository.findAll();
   }
 
-  public List<ProductApiResponseDTO<Product>> bulkCreate(List<Product> products) {
-    List<ProductApiResponseDTO<Product>> responses = new ArrayList<>();
-
-    for (Product p : products) {
-      try {
-        responses.add(addProduct(p));
-      } catch (IllegalArgumentException e) {
-        responses.add(new ProductApiResponseDTO<>("Error: " + e.getMessage()));
-      }
-    }
-
-    return responses;
-  }
 
   public ProductApiResponseDTO<Product> addProduct(Product p) {
 

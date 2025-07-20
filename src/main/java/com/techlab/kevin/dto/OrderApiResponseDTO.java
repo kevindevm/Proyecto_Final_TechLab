@@ -48,31 +48,4 @@ public class OrderApiResponseDTO {
     return dto;
   }
 
-  public static OrderApiResponseDTO MsgCreateOrUpdate(String msg, Integer id, String status,
-      List<OrderItem> items,
-      Double totalAmount) {
-    OrderApiResponseDTO dto = new OrderApiResponseDTO();
-    dto.setMessage(msg);
-    dto.setId(id);
-    dto.setStatus(status);
-    dto.setItems(items);
-    dto.setTotalAmount(totalAmount);
-    return dto;
-  }
-
-  public static OrderApiResponseDTO updateItemQuantity(String msg, Integer orderId
-      , Integer productId,
-      @Min(value = 1, message = "Quantity must be at least 1") Integer quantity, double subtotal) {
-    OrderApiResponseDTO dto = new OrderApiResponseDTO();
-    dto.setMessage(msg);
-    dto.setProductId(productId);
-    dto.setNewSubtotal(subtotal);
-    dto.setId(orderId);
-    dto.setQuantity(quantity);
-    dto.setSubtotal(subtotal);
-    return dto;
-
-  }
-
-
 }

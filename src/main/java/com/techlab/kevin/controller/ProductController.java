@@ -35,6 +35,7 @@ public class ProductController {
     return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(result);
   }
 
+
   @PostMapping
   public ResponseEntity<ProductApiResponseDTO<Product>> create(@RequestBody Product product) {
     return ResponseEntity.status(HttpStatus.CREATED).body(service.addProduct(product));
@@ -67,7 +68,7 @@ public class ProductController {
     }
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("delete/{id}")
   public ResponseEntity<ProductApiResponseDTO<Product>> delete(@PathVariable Integer id) {
     return service.deleteById(id);
   }

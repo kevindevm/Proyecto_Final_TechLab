@@ -6,8 +6,11 @@ import com.techlab.kevin.entities.Product;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 @Hidden
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -17,7 +20,7 @@ public class GlobalExceptionHandler {
       IllegalArgumentException ex) {
     return ResponseEntity
         .status(HttpStatus.BAD_REQUEST)
-        .body(new ProductApiResponseDTO<Product>(ex.getMessage()));
+        .body(new ProductApiResponseDTO<>(ex.getMessage()));
   }
 
   @ExceptionHandler(ProductNotFoundException.class)
@@ -25,14 +28,7 @@ public class GlobalExceptionHandler {
       ProductNotFoundException ex) {
     return ResponseEntity
         .status(HttpStatus.NOT_FOUND)
-        .body(new ProductApiResponseDTO<Product>(ex.getMessage()));
-  }
-
-  @ExceptionHandler(Exception.class)
-  public ResponseEntity<ProductApiResponseDTO<Product>> handleGeneralException(Exception ex) {
-    return ResponseEntity
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(new ProductApiResponseDTO<Product>("Error interno del servidor: " + ex.getMessage()));
+        .body(new ProductApiResponseDTO<>(ex.getMessage()));
   }
 
   @ExceptionHandler(OrderNotFoundException.class)
@@ -43,4 +39,39 @@ public class GlobalExceptionHandler {
   }
 
 
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<OrderApiResponseDTO> handleMissingParam(
+      MethodArgumentNotValidException ex) {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(
+            OrderApiResponseDTO.OnlyMsg("Parámetro requerido faltante: " + ex.getMessage()));
+  }
+
+  @ExceptionHandler(MissingServletRequestParameterException.class)
+  public ResponseEntity<OrderApiResponseDTO> handleMissingParam(
+      MissingServletRequestParameterException ex) {
+    return ResponseEntity
+        .status(HttpStatus.BAD_REQUEST)
+        .body(
+            OrderApiResponseDTO.OnlyMsg("Parámetro requerido faltante: " + ex.getParameterName()));
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<?> handleGeneralException(Exception ex) {
+    if (ex instanceof MissingServletRequestParameterException e) {
+      return ResponseEntity
+          .status(HttpStatus.BAD_REQUEST)
+          .body(
+              OrderApiResponseDTO.OnlyMsg("Parámetro requerido faltante: " + e.getParameterName()));
+    }
+    if (ex instanceof ProductNotFoundException || ex instanceof IllegalArgumentException) {
+      return ResponseEntity
+          .status(HttpStatus.INTERNAL_SERVER_ERROR)
+          .body(new ProductApiResponseDTO<>("Error interno del servidor: " + ex.getMessage()));
+    }
+    return ResponseEntity
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(OrderApiResponseDTO.OnlyMsg("Error interno del servidor: " + ex.getMessage()));
+  }
 }

@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,15 +24,13 @@ public class Product {
 
   @Min(0)
   private Integer stock;
+  @Min(0)
   private Double price;
+  @NotBlank
   private String name;
 
 
-  public Product(String name, Double price, Integer stock) {
-    this.name = name;
-    this.price = price;
-    this.stock = stock;
-  }
+
 
   public void updateStock(int amount) throws NoStockException {
     if (this.stock + amount < 0) {

@@ -10,7 +10,6 @@ import com.techlab.kevin.exceptions.ProductNotFoundException;
 import com.techlab.kevin.repository.OrderRepository;
 import com.techlab.kevin.repository.ProductRepository;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,43 +21,6 @@ public class OrderService {
   public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
     this.orderRepository = orderRepository;
     this.productRepository = productRepository;
-  }
-
-  public Order addItemToOrder(Integer orderId, Integer productId, Integer quantity) {
-    Order order = orderRepository.findById(orderId)
-        .orElseThrow(() -> new OrderNotFoundException("Order with ID " + orderId + " not found."));
-
-    Product product = productRepository.findById(productId)
-        .orElseThrow(
-            () -> new ProductNotFoundException("Product with ID " + productId + " not found."));
-
-    // ✅ Buscar si ya existe ese producto en los items
-    Optional<OrderItem> existingItem = order.getItems().stream()
-        .filter(item -> item.getProduct().getId().equals(productId))
-        .findFirst();
-
-    if (existingItem.isPresent()) {
-      // ✅ Ya existe → actualizás cantidad
-      OrderItem item = existingItem.get();
-      item.setQuantity(item.getQuantity() + quantity);
-      item.setSubtotal(item.getQuantity() * product.getPrice());
-    } else {
-      // ✅ No existe → lo agregás como nuevo item
-      OrderItem newItem = new OrderItem();
-      newItem.setProduct(product);
-      newItem.setQuantity(quantity);
-      newItem.setSubtotal(quantity * product.getPrice());
-      newItem.setOrder(order); // relación bidireccional
-      order.getItems().add(newItem);
-    }
-
-    // Recalcular total de la orden
-    double total = order.getItems().stream()
-        .mapToDouble(OrderItem::getSubtotal)
-        .sum();
-    order.setTotalAmount(total);
-
-    return orderRepository.save(order);
   }
 
   public OrderApiResponseDTO addOrder(Order order) {
@@ -112,31 +74,7 @@ public class OrderService {
     return OrderApiResponseDTO.MsgAndOrder("Order updated successfully", saved);
   }
 
-  //public OrderApiResponseDTO updateItemQuantity(Integer orderId, Integer productId, OrderItemQuantityUpdateDTO dto) {
-//    Order order = orderRepository.findById(orderId)
-//        .orElseThrow(() -> new OrderNotFoundException(orderId.toString()));
-//
-//    boolean itemFound = false;
-//    double newTotal = 0;
-//
-//    for (OrderItem item : order.getItems()) {
-//        if (item.getProduct().getId().equals(productId)) {
-//            item.setQuantity(dto.getQuantity());
-//            item.setSubtotal(item.getProduct().getPrice() * dto.getQuantity());
-//            itemFound = true;
-//        }
-//        newTotal += item.getSubtotal();
-//    }
-//
-//    if (!itemFound) {
-//        throw new IllegalArgumentException("Product with ID " + productId + " not found in this order.");
-//    }
-//
-//    order.setTotalAmount(newTotal);
-//    Order updated = orderRepository.save(order);
-//
-//    return mapToResponseDTO(updated);
-//}
+
   public OrderApiResponseDTO deleteOrder(Integer id) {
     if (!orderRepository.existsById(id)) {
       throw new OrderNotFoundException("Order with ID " + id + " not found");
@@ -146,16 +84,7 @@ public class OrderService {
     return OrderApiResponseDTO.MsgAndID("Order deleted successfully", id);
   }
 
-//
-//  private OrderApiResponseDTO mapToResponseDTO(Order order) {
-//    return OrderApiResponseDTO.MsgCreateOrUpdate(
-//        "Order updated successfully",
-//        order.getId(),
-//        order.getStatus(),
-//        order.getItems(),
-//        order.getTotalAmount()
-//    );
-//  }
+
 
   public Order removeItemByProduct(Integer orderId, Integer productId) {
     Order order = orderRepository.findById(orderId)
@@ -178,6 +107,7 @@ public class OrderService {
   }
 
   public OrderItem updateItemQuantity(Integer orderId, Integer productId, Integer quantity) {
+
     Order order = orderRepository.findById(orderId)
         .orElseThrow(() -> new OrderNotFoundException("Order not found"));
 

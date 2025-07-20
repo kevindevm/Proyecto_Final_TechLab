@@ -1,0 +1,337 @@
+type: collection.insomnia.rest/5.0
+name: My first collection
+meta:
+  id: wrk_3a0c6d0fdc8640ae98b09ef873a59370
+  created: 1748903560491
+  modified: 1748903560491
+collection:
+  - url: http://127.0.0.1:4241/products
+    name: add product
+    meta:
+      id: req_75a03774cade4b70b56f87b82ae144af
+      created: 1751408931305
+      modified: 1752978007009
+      isPrivate: false
+      sortKey: -1751408931305
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name":"Teclado gamer ",
+        	"stock":0,
+        	"price":1
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/products
+    name: list produts
+    meta:
+      id: req_d9a428b9597c4507970ce4bac5d21598
+      created: 1751408999424
+      modified: 1753024588097
+      isPrivate: false
+      sortKey: -1751408999424
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/products/search/teclado
+    name: search by word
+    meta:
+      id: req_18509d5e109543e98770bbc3fab23ffa
+      created: 1751487381735
+      modified: 1753024462948
+      isPrivate: false
+      sortKey: -1751448190579.5
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/products/delete/54
+    name: delete product
+    meta:
+      id: req_66cd38d36f54466d83696cd9d359dcdc
+      created: 1751586807453
+      modified: 1752979268972
+      isPrivate: false
+      sortKey: -1751586807453
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/products/21
+    name: edit product
+    meta:
+      id: req_ff6996aa1007423bab008f21f3a5365b
+      created: 1751587807869
+      modified: 1753024591213
+      isPrivate: false
+      sortKey: -1751587807869
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"stock":5,
+        	"name": "asd",
+        	"price":1000
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/orders
+    name: create order
+    meta:
+      id: req_239564425a6f420f94cbf33caadca1ad
+      created: 1751768266204
+      modified: 1753024653131
+      isPrivate: false
+      sortKey: -1751768266204
+    method: POST
+    body:
+      mimeType: application/json
+      text: |
+        {
+          "status": "PENDING",
+          "items": [
+            {
+              "product": { "id": 15 },
+              "quantity": 1
+            },
+            {
+              "product": { "id": 20 },
+              "quantity": 2
+            }
+          ]
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/orders
+    name: get all orders
+    meta:
+      id: req_eb9a7574b6e74d92ab0e105e6774d469
+      created: 1751819852231
+      modified: 1753024666490
+      isPrivate: false
+      sortKey: -1751819852231
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/orders/8
+    name: get order
+    meta:
+      id: req_aa08a395397a4bd1bd9dac79a785be0c
+      created: 1751820028502
+      modified: 1753024708767
+      isPrivate: false
+      sortKey: -1751820028502
+    method: GET
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/orders/7
+    name: change status from order
+    meta:
+      id: req_5aaed0b99b9c47d6b042f2e04d5b0bd0
+      created: 1751820075629
+      modified: 1753024692556
+      isPrivate: false
+      sortKey: -1751820075629
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"status":"effffnd"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/orders/8/items/20
+    name: edit quantiy from an orderItem
+    meta:
+      id: req_8ca530addca54202b35b7a1b2f57d94c
+      created: 1751820679214
+      modified: 1753025733581
+      isPrivate: false
+      sortKey: -1751820679214
+    method: PATCH
+    body:
+      mimeType: application/json
+    parameters:
+      - id: pair_27b1ed435e334dabbe85c0867cb6de21
+        name: quantity
+        value: "1"
+        disabled: false
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/orders/8/product/15
+    name: Delete product from order
+    meta:
+      id: req_6efa4851491e466c96385ed9ef16dc31
+      created: 1751822004374
+      modified: 1753025790107
+      isPrivate: false
+      sortKey: -1751822004374
+    method: DELETE
+    headers:
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://127.0.0.1:4241/products/bulk
+    name: Bulk Create
+    meta:
+      id: req_97f41e6b7eab4106a4d22655eecb2811
+      created: 1751924957750
+      modified: 1753025857115
+      isPrivate: false
+      sortKey: -1751924957750
+    method: POST
+    body:
+      mimeType: application/json
+      text: >
+        [
+          { "name": "Mouse Logitech G203", "price": 13500.0, "stock": 25 },
+          { "name": "Teclado Redragon Kumara K552", "price": 24000.0, "stock": 15 },
+          { "name": "Monitor Samsung 24'' LED 75Hz", "price": 95000.0, "stock": 10 },
+          { "name": "Notebook Lenovo IdeaPad 15.6'' i5", "price": 650000.0, "stock": 5 },
+          { "name": "Gabinete Corsair 4000D", "price": 110000.0, "stock": 8 },
+          { "name": "Placa de Video NVIDIA RTX 4060", "price": 410000.0, "stock": 4 },
+          { "name": "Disco SSD Kingston NV2 1TB", "price": 38000.0, "stock": 20 },
+          { "name": "Memoria RAM Corsair Vengeance 16GB DDR4", "price": 45000.0, "stock": 12 },
+          { "name": "Fuente EVGA 600W 80+ Bronze", "price": 62000.0, "stock": 9 },
+          { "name": "Auriculares HyperX Cloud Stinger", "price": 30000.0, "stock": 18 },
+          { "name": "Procesador AMD Ryzen 5 5600X", "price": 120000.0, "stock": 6 },
+          { "name": "Motherboard B550M PRO", "price": 100000.0, "stock": 7 },
+          { "name": "Webcam Logitech C920 HD", "price": 42000.0, "stock": 10 },
+          { "name": "Impresora Epson EcoTank L3250", "price": 170000.0, "stock": 3 },
+          { "name": "Silla Gamer Corsair T3 Rush", "price": 220000.0, "stock": 2 }
+        ]
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/11.1.0
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_87b6bdd5fe31af51e4096dc3c31c1e040984afd5
+    created: 1748903560498
+    modified: 1748903560498
+environments:
+  name: Base Environment
+  meta:
+    id: env_87b6bdd5fe31af51e4096dc3c31c1e040984afd5
+    created: 1748903560493
+    modified: 1748903560493
+    isPrivate: false
